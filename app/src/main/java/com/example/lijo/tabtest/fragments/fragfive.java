@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lijo.tabtest.OnFragmentSelectedListener;
 import com.example.lijo.tabtest.R;
 
 /**
@@ -13,8 +14,10 @@ import com.example.lijo.tabtest.R;
  */
 public class fragfive extends Fragment {
 
-    public fragfive() {
+    private OnFragmentSelectedListener onFragmentSelectedListener;
+    public fragfive(OnFragmentSelectedListener onFragmentSelectedListener) {
 
+        this.onFragmentSelectedListener = onFragmentSelectedListener;
 
 
     }
@@ -29,6 +32,7 @@ public class fragfive extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        onFragmentSelectedListener.onFragmentSelected(5);
         return inflater.inflate(R.layout.fragment_five, container, false);
     }
 

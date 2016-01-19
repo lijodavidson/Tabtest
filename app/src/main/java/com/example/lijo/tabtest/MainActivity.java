@@ -13,7 +13,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Scene;
+import android.transition.TransitionManager;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.Toast;
 
 
 import com.example.lijo.tabtest.fragments.fragfive;
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
          imageView=(ImageView) findViewById(R.id.header);
-        imageView.setImageResource(R.drawable.top);
+        imageView.setImageResource(R.drawable.kitchen);
 
 
 
@@ -61,6 +69,54 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Log.d("Position : ", String.valueOf(position));
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("Position1 : ", String.valueOf(position));
+                Fade fade = new Fade();
+                /*TransitionManager.go(imageView, fade);*/
+              /*  ImageView newImage = new ImageView(getApplicationContext());*/
+
+
+                switch(position) {
+
+                    case 0:  imageView.setImageResource(R.drawable.kitchen);
+                        break;
+                    case 1:   imageView.setImageResource(R.drawable.beds);
+                        break;
+
+                    case 2:  imageView.setImageResource(R.drawable.bed1);
+                        break;
+
+                    case 3:   imageView.setImageResource(R.drawable.bed2);
+                        break;
+
+                    case 4:  imageView.setImageResource(R.drawable.top);
+                        break;
+                }
+              /*  Scene newScene = new Scene((ViewGroup)newImage.getParent(),(ViewGroup)imageView.getParent() );
+                TransitionManager.go(newScene, fade);*/
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
+
+
+
+
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -78,20 +134,44 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFrag(new fragtwo(), "Kitchen");
-        adapter.addFrag(new fragthree(), "Bedroom");
-        adapter.addFrag(new fragfour(), "Bedroom1");
-        adapter.addFrag(new fragfive(), "Livingroom");
+        adapter.addFrag(new fragtwo(new OnFragmentSelectedListener() {
+            @Override
+            public void onFragmentSelected(int position) {
+               /* imageView.setImageResource(R.drawable.top);*/
+
+            }
+        }), "Kitchen");
+        adapter.addFrag(new fragthree(new OnFragmentSelectedListener() {
+            @Override
+            public void onFragmentSelected(int position) {
+                /*imageView.setImageResource(R.drawable.bed);*/
+            }
+        }), "Bedroom");
+        adapter.addFrag(new fragfour(new OnFragmentSelectedListener() {
+            @Override
+            public void onFragmentSelected(int position) {
+              /*  imageView.setImageResource(R.drawable.top);*/
+            }
+        }), "Bedroom1");
+        adapter.addFrag(new fragfive(new OnFragmentSelectedListener() {
+            @Override
+            public void onFragmentSelected(int position) {
+
+
+                  /*  imageView.setImageResource(R.drawable.bed);*/
+
+            }
+        }), "Livingroom");
         adapter.addFrag(new fragone(new OnFragmentSelectedListener(){
 
             @Override
             public void onFragmentSelected(int position) {
 
-                if(position == 1){
+//if(position==1) {
                     /*collapsingToolbar.setBackgroundResource(R.drawable.eveback);*/
-                    imageView.setImageResource(R.drawable.fans);
-                }
-            }
+   /* imageView.setImageResource(R.drawable.top);*/
+}
+//            }
         }), "Hall");
 
         viewPager.setAdapter(adapter);
